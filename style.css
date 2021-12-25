@@ -1,0 +1,101 @@
+body { font:16px helvetica,sans-serif; background:white; color:#222; }
+tt,pre,code { font-family:consolas,menlo,monospace; }
+h2 { font-family:inherit; font-weight:bold; font-size:1.2em; }
+
+#content {
+  max-width:800px; margin:2em auto;
+  display: -webkit-flex; display: flex;
+  -webkit-flex-direction: row; flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+  #content > div {
+    background: #eee;
+    border-radius: 5px;
+    padding:0 1em;
+    height:600px;
+  }
+  #content > .left-column {
+    width:10em;
+  }
+  #content > .right-column {
+    flex: 1 1 auto; -webkit-flex: 1 1 auto;
+    margin-left:1em;
+  }
+
+ul {
+  list-style:none;
+  display:block;
+  padding:0;
+  margin:1em 0;
+  border-top:2px solid #ddd;
+}
+
+ul > li {
+  display:block;
+  margin:4px 0;
+  padding:4px 0;
+}
+
+input[type=text] {
+  box-sizing:border-box;
+  border:none;
+  background:white;
+  margin:0;
+  padding:10px 0.5em;
+  font:inherit;
+  flex: 1 1 auto; -webkit-flex: 1 1 auto;
+}
+input[type=text]:focus {
+  outline:none;
+}
+
+
+#messages_body {
+  display: -webkit-flex; display: flex;
+  -webkit-flex-direction: column; flex-direction: column;
+  /*align-items: flex-start;
+  justify-content: flex-start;*/
+}
+  #messages_body ul {
+    border-bottom:2px solid #ddd;
+    margin-top:0;
+    margin-bottom:0;
+    /*height:500px;*/
+    flex: 1 1 auto; -webkit-flex: 1 1 auto;
+    overflow-y:auto;
+  }
+  #messages_body li {
+    display: -webkit-flex; display: flex;
+    -webkit-flex-direction: row; flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  #messages_body li span.author { font-weight:bold; padding-right:0.5em; }
+  #messages_body li span.author::after { content:": "; }
+  #messages_body li span.body {}
+  #messages_body form {
+    flex: 0 1 auto; -webkit-flex: 0 1 auto;
+  }
+  #messages_body .composer {
+    margin-bottom:1em;
+    flex: 0 0 auto; -webkit-flex: 0 0 auto;
+    display: -webkit-flex; display: flex;
+    -webkit-flex-direction: row; flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+#footer {
+  background:rgba(255,255,255,0.8);
+  position: fixed;
+  top:0;
+  left:0;
+  right:0;
+  text-align:center;
+  font-size:80%;
+  padding:7px;
+  color:#999;
+  border-top:1px solid rgba(0,0,0,0.1);
+}
+  #footer .my-username { font-weight:bold; }
