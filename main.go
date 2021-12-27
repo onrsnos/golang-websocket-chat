@@ -97,6 +97,11 @@ func onConnect(s *gotalk.WebSocket) {
 					namesdata.names = namesdata.names[:i-1]
 				}
 
+				for i := range socketdata.sockets {
+					fmt.Println(i)
+
+					socketdata.sockets[i].SocketToken.Notify("denemenotification", namesdata.names)
+				}
 				break
 				fmt.Println("Socket data sockets intern")
 				fmt.Println(socketdata.sockets)
