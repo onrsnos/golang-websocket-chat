@@ -9,7 +9,7 @@ var composerInputField = composer.querySelector('.body');
 var composingMessages = {}; // room -> string
 var accessKeys = {};
 var unseenMessageCount = {}; // room -> int
-
+var context_div = document.getElementById('context_div');
 
 function makeMessageView(message) {
   var li = document.createElement('li');
@@ -67,6 +67,27 @@ gotalk.handleNotification('showmessages', function (messages) {
   }
 });
 
+gotalk.handleNotification('denemenotification', function (socket) {
+
+  console.log("socket")
+  console.log(socket)
+  console.log("socket")
+  context_div.innerHTML = "";
+  var div = document.createElement('div');
+  for(user_name of socket){
+
+    div.innerHTML += `
+      <img src="./facebookimage.png" alt="" width="30" height="30"> ${user_name.name}
+      <br><br>
+    `;
+
+
+  }
+
+  context_div.appendChild(div)
+  
+  
+});
 // We get assigned a username
 gotalk.handleNotification('username', function (username) {
   Array.prototype.forEach.call(document.querySelectorAll('.my-username'), function (e) {

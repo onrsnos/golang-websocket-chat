@@ -17,18 +17,32 @@ import (
 	"github.com/rsms/gotalk"
 )
 
-type Socket struct {
-	Name     string `json:"name"`
-	messages []*Message
-}
+// type Socket struct {
+// 	Name     string `json:"name"`
+// 	messages []*Message
+// }
 
+type Socket struct {
+	Name        string `json:"name"`
+	SocketToken *gotalk.WebSocket
+}
 type Message struct {
 	Author string `json:"author"`
 	Body   string `json:"body"`
 }
 
+type Name struct {
+	Name string `json:"name"`
+}
 type Messages struct {
 	messages []*Message
+}
+
+type Names struct {
+	names []*Name
+}
+type SocketData struct {
+	sockets []*Socket
 }
 
 func (message *Messages) appendMessageSocket(m *Message) {
@@ -51,8 +65,9 @@ type MessagesType []Messages
 var (
 	socks        map[*gotalk.WebSocket]int
 	socksmu      sync.RWMutex
-	sockets      SocketMap
 	messagesdata Messages
+	socketdata   SocketData
+	namesdata    Names
 )
 
 func onConnect(s *gotalk.WebSocket) {
@@ -61,6 +76,35 @@ func onConnect(s *gotalk.WebSocket) {
 	defer socksmu.Unlock()
 	socks[s] = 1
 	s.CloseHandler = func(s *gotalk.WebSocket, _ int) {
+		for i := range socketdata.sockets {
+			if socketdata.sockets[i].SocketToken == s {
+				fmt.Println("tokenlar eşleşti")
+				if i < len(socketdata.sockets) {
+					fmt.Println("socket lengti token indexinden büyük")
+					socketdata.sockets[i] = socketdata.sockets[len(socketdata.sockets)-1]
+					socketdata.sockets[len(socketdata.sockets)-1] = nil
+					socketdata.sockets = socketdata.sockets[:len(socketdata.sockets)-1]
+
+					namesdata.names[i] = namesdata.names[len(namesdata.names)-1]
+					namesdata.names[len(namesdata.names)-1] = nil
+					namesdata.names = namesdata.names[:len(namesdata.names)-1]
+				} else {
+					fmt.Println("socket lengti token indexine eşit")
+					socketdata.sockets[i] = nil
+					socketdata.sockets = socketdata.sockets[:i-1]
+
+					namesdata.names[i] = nil
+					namesdata.names = namesdata.names[:i-1]
+				}
+
+				break
+				fmt.Println("Socket data sockets intern")
+				fmt.Println(socketdata.sockets)
+				fmt.Println("Socket data sockets intern")
+
+			}
+		}
+
 		fmt.Printf("Token: %s bağlantısı kesildi!\n", s)
 		delete(socks, s)
 	}
@@ -71,6 +115,21 @@ func onConnect(s *gotalk.WebSocket) {
 
 	// isimlerden birini random çek
 	username := randomName()
+	namesdata.names = append(namesdata.names, &Name{username})
+	socketdata.sockets = append(socketdata.sockets, &Socket{username, s})
+	fmt.Println("Socket data sockets onconnect")
+	fmt.Println(socketdata.sockets)
+	fmt.Println("Socket data sockets onconnect")
+	// fmt.Println("Socket data:")
+	// fmt.Println(socketdata.sockets[0].SocketToken)
+
+	for i := range socketdata.sockets {
+		fmt.Println(i)
+
+		socketdata.sockets[i].SocketToken.Notify("denemenotification", namesdata.names)
+	}
+
+	// fmt.Println(username)
 	// soketdeki UserData kolonuna bu ismi ata
 	s.UserData = username
 	s.Notify("username", username)
