@@ -31,8 +31,8 @@ const (
 	host     = "localhost"
 	port     = 5432
 	user     = "postgres"
-	password = "1234"
-	dbname   = "golang"
+	password = "yourpassword"
+	dbname   = "yourdbname"
 )
 
 type Socket struct {

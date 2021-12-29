@@ -12,3 +12,15 @@ uygulamayı çalıştırabilmek için izlenecek adımlar aşağıdadır.
 uygulamayı build ederek exe çıktısını elde edebilirsiniz
 
 go build
+
+postgresql bağlantısı için <br>
+<br>
+const (
+	host     = "localhost"  
+	port     = 5432
+	user     = "postgres"
+	password = "yourpassword"
+	dbname   = "yourdbname"
+)<br>
+
+bu kod bloğunu main.go dosyasının 30-37 satırları arasından kendi db nize uygun olarak değiştirebilirsiniz.<br>
