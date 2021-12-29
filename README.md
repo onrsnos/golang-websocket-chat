@@ -1,6 +1,6 @@
 Chat uygulaması. 
 
-http://localhost:8080/ adresine bağlanacak olan kullanıcılar random isimler alarak birbiri ile mesajlaşabilecekler.
+http://localhost:8080/ adresine bağlanacak olan kullanıcılar isimlerini girerek, chat ekranında birbirileri ile chat edebilecekler.
 
 uygulamayı çalıştırabilmek için izlenecek adımlar aşağıdadır.
 
