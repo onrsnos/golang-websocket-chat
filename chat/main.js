@@ -1,7 +1,7 @@
 if (typeof console === 'undefined') {
   console = {error:function(){},log:function(){}};
 }
-
+var store_user_name = window.name;
 var s; // our socket
 var messageBody = document.querySelector('#messages_body ul.messages');
 var composer = document.querySelector('#messages_body .composer');
@@ -10,6 +10,9 @@ var composingMessages = {}; // room -> string
 var accessKeys = {};
 var unseenMessageCount = {}; // room -> int
 var context_div = document.getElementById('context_div');
+
+
+
 
 function makeMessageView(message) {
   var li = document.createElement('li');
@@ -109,16 +112,27 @@ composer.onsubmit = function () {
   var body = getComposerMessage();
   console.log("Mesaj:"+body)
 
-  s.request('send-message', { message:{body:body}}, function (err, res) {
+  s.request('send-message', { message:{body:body,author:store_user_name}}, function (err, res) {
     composerInputField.value = "";
 
   });
   return false;
 };
 
+
 function onConnect(s) {
   console.log("connection opened")
+
+  if(store_user_name != ""){
+    s.request('store-user', { message:{author:store_user_name}}, function (err, res) {
+    // s.request('store-user', { user:{name:store_user_name}}, function (err, res) {
+     
+  
+      console.log("store user event sended");
+    });
+  }
 }
+
 
 var s = gotalk.connection()
   .on('open', onConnect)
